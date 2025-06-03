@@ -1,12 +1,8 @@
-from http.server import HTTPServer, BaseHTTPRequestHandler
-from urllib.parse import urlparse
+from flask import Flask, request, render_template_string
 import random
 from datetime import datetime
-import socket
-import threading
-import time
-import webbrowser
 
+app = Flask(__name__)
 
 citations = [
     "Un câlin est toujours la bonne taille.",
@@ -48,7 +44,7 @@ main_doc = '''
 <head>
     <meta charset="utf-8">
     <title>Winnie Star</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <h1>Winnie Star</h1>
@@ -67,7 +63,7 @@ def quote_page(quote):
     <head>
         <meta charset="utf-8">
         <title>Winnie te parle</title>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="/static/style.css">
     </head>
     <body>
     <h1>Winnie Star</h1>
@@ -86,7 +82,7 @@ second_doc = '''
 <head>
     <meta charset="utf-8">
     <title>Winnie Star</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <h1>Winnie Star</h1>
@@ -95,62 +91,23 @@ second_doc = '''
 </html>
 '''
 
-class MyHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        parsed_path = urlparse(self.path)
+@app.route('/')
+def home():
+    return main_doc
 
-        if parsed_path.path == '/style.css':
-            try:
-                with open('style.css', 'rb') as f:
-                    self.send_response(200)
-                    self.send_header('Content-Type', 'text/css')
-                    self.end_headers()
-                    self.wfile.write(f.read())
-            except FileNotFoundError:
-                self.send_error(404, "Fichier style.css non trouvé.")
-            return
+@app.route('/ask')
+def ask():
+    ip = request.remote_addr
+    today = datetime.now().date()
 
-        ip = self.client_address[0]
-        today = datetime.now().date()
+    last_visit = dernieres_visites.get(ip)
 
-        if parsed_path.path == '/ask':
-            last_visit = dernieres_visites.get(ip)
-
-            if last_visit == today:
-                output = second_doc
-            else:
-                dernieres_visites[ip] = today
-                quote = random.choice(citations)
-                output = quote_page(quote)
-        else:
-            output = main_doc
-
-        self.send_response(200)
-        self.send_header('Content-Type', 'text/html;charset=utf-8')
-        self.end_headers()
-        self.wfile.write(bytes(output, 'UTF-8'))
-
-def start_server():
-    server = HTTPServer(('', 8081), MyHandler)
-    print("Serveur lancé sur http://localhost:8081/")
-    server.serve_forever()
+    if last_visit == today:
+        return second_doc
+    else:
+        dernieres_visites[ip] = today
+        quote = random.choice(citations)
+        return quote_page(quote)
 
 if __name__ == '__main__':
-    # Démarre le serveur dans un thread
-    server_thread = threading.Thread(target=start_server, daemon=True)
-    server_thread.start()
-
-    # Laisse le serveur se lancer (0.5 à 1 seconde suffisent souvent)
-    time.sleep(1)
-
-    # Ouvre le navigateur
-    webbrowser.open("http://localhost:8081")
-
-    # Maintient le programme principal actif pour ne pas qu'il quitte
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        print("Arrêt manuel")
-
-
+    app.run(host='0.0.0.0', port=8081)
