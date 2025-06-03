@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template_string
 import random
-from datetime import datetime
+"""from datetime import datetime"""
 
 app = Flask(__name__)
 
@@ -76,7 +76,7 @@ def quote_page(quote):
     </html>
     '''
 
-second_doc = '''
+"""second_doc = '''
 <!DOCTYPE html>
 <html>
 <head>
@@ -90,6 +90,7 @@ second_doc = '''
 </body>
 </html>
 '''
+"""
 
 @app.route('/')
 def home():
@@ -97,7 +98,7 @@ def home():
 
 @app.route('/ask')
 def ask():
-    ip = request.remote_addr
+    """ip = request.remote_addr
     today = datetime.now().date()
 
     last_visit = dernieres_visites.get(ip)
@@ -105,9 +106,9 @@ def ask():
     if last_visit == today:
         return second_doc
     else:
-        dernieres_visites[ip] = today
-        quote = random.choice(citations)
-        return quote_page(quote)
+        dernieres_visites[ip] = today"""
+    quote = random.choice(citations)
+    return quote_page(quote)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8081)
