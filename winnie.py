@@ -44,7 +44,7 @@ main_doc = '''
 <head>
     <meta charset="utf-8">
     <title>Winnie Star</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <h1>Winnie Star</h1>
@@ -63,7 +63,7 @@ def quote_page(quote):
     <head>
         <meta charset="utf-8">
         <title>Winnie te parle</title>
-        <link rel="stylesheet" href="/static/style.css">
+        <link rel="stylesheet" href="/static/css/style.css">
     </head>
     <body>
     <h1>Winnie Star</h1>
@@ -82,7 +82,7 @@ second_doc = '''
 <head>
     <meta charset="utf-8">
     <title>Winnie Star</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <h1>Winnie Star</h1>
