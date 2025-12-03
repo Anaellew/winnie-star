@@ -33,7 +33,8 @@ citations = [
     "Hier, quand c’était demain, c’était une journée trop excitante pour moi.",
     "Si les gens sont contrariés parce que vous avez oublié quelque chose, consolez—les en leur faisant savoir que vous n’avez pas oublié-vous ne vous souveniez tout simplement pas.",
     "Si possible, essayez de trouver un moyen de descendre qui n’implique pas d’aller bosse, bosse, bosse, à l’arrière de votre tête.",
-    "J’arrive toujours là où je vais en m’éloignant de l’endroit où j’ai été."
+    "J’arrive toujours là où je vais en m’éloignant de l’endroit où j’ai été.",
+    "Yoyoyo"
 ]
 
 dernieres_visites = {}
